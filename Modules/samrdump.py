@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # Copyright (c) 2003-2015 CORE Security Technologies
 #
 # This software is provided under under a slightly modified version

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 import socket
 import subprocess
 import sys
@@ -7,23 +7,23 @@ import recon
 
 
 if len(sys.argv) != 2:
-    print "Usage: smtprecon.py <ip address>"
+    print("Usage: smtprecon.py <ip address>")
     sys.exit(0)
 
 ip_address = sys.argv[1]
 
 try:
-    print "\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m"
+    print("\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m")
     print('\033[1;37m[-]  |     Starting SMTP script scan for {0}\033[1;m'.format(ip_address))
-    print "\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m"
+    print("\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m")
     SMTPSCAN = "nmap -vv -sV -Pn -p 25,465,587 --script-args=unsafe=1 --script=smtp* -oN './results/{0}/{0}_smtp.nmap' -oX './results/{0}/{0}_nmap_scan_smtp.xml' {0}".format(ip_address)
     results = subprocess.check_output(SMTPSCAN, shell=True)
     recon.logparsertxt(results)
 
     # Test for presence of the VRFY command
-    print "\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m"
+    print("\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m")
     print('\033[1;37m[-]  |     Starting SMTP Enum on {0}\033[1;m'.format(ip_address))
-    print "\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m"
+    print("\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m")
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         connect = s.connect((ip_address,25))

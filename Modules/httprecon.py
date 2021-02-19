@@ -1,11 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import subprocess
 import sys
 import os
 import recon
 
 if len(sys.argv) != 3:
-    print "Usage: httprecon.py <ip address> <port>"
+    print("Usage: httprecon.py <ip address> <port>")
     sys.exit(0)
 
 ip_address = sys.argv[1].strip()
@@ -16,9 +16,9 @@ else:
     header = "http://"
 
 try:
-    print "\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m"
+    print("\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m")
     print('\033[1;37m[-]  |     Starting HTTP script scan for {0}:{1} \033[1;m'.format(ip_address, port))
-    print "\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m"
+    print("\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m")
 
     if not recon.checknmaprunmod(ip_address, "_http.nmap.{0}".format(port, ip_address)):
         HTTPSCAN = "nmap -sV -Pn -vv -p {0} --script-args=unsafe=1 --script='http* AND NOT broadcast AND NOT dos AND NOT http-slow* AND NOT http-comment*' --stats-every 10s -oN ./results/{1}/{1}_http.nmap.{0} {1} -oX ./results/{1}/{1}_http.nmap.{0} {1}".format(port, ip_address)
@@ -40,20 +40,20 @@ try:
   #  print('\033[1;33m[+]  Added screenshot to results for {0}:{1}...\033[1;m'.format(ip_address, port))
 
     NIKTOSCAN = "nikto -host {0} -p {1} -C all -o ./results/{0}/{0}.{1}_nikto.txt".format(ip_address, port)
-    print "\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m"
+    print("\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m")
     print('\033[1;37m[-]  |     Starting NIKTO scan for {0}:{1} \033[1;m'.format(ip_address, port))
-    print "\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m"
+    print("\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m")
     resultsnikto = subprocess.check_output(NIKTOSCAN, shell=True)
     recon.logparsernikto(resultsnikto)
 
     SSLSCAN = "sslscan --no-colour {0}:{1}".format(ip_address, port)
-    print "\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m"
+    print("\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m")
     print('\033[1;37m[-]  |     Starting SSL scan for {0}:{1} \033[1;m'.format(ip_address, port))
-    print "\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m"
+    print("\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m")
     resultsssl = subprocess.check_output(SSLSCAN, shell=True)
     recon.logparsertxt(resultsssl)
     out = "./results/{0}/{0}.{1}_sslscan.txt".format(ip_address, port)
-    print ('\033[1;33m[+]  report written to: {0}\033[1;m'.format(out))
+    print('\033[1;33m[+]  report written to: {0}\033[1;m'.format(out))
     f = open(out, "w")
     f.write(resultsssl)
     f.close()

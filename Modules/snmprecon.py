@@ -1,20 +1,20 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import subprocess
 import sys
 import os
 import recon
 
 if len(sys.argv) != 2:
-    print "Usage: snmprecon.py <ip address>"
+    print("Usage: snmprecon.py <ip address>")
     sys.exit(0)
 
 snmpdetect = 0
 ip_address = sys.argv[1]
 
 try:
-    print "\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m"
+    print("\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m")
     print('\033[1;37m[-]  |     Starting SNMP scan for {0}\033[1;m'.format(ip_address))
-    print "\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m"
+    print("\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m")
     ONESIXONESCAN = "onesixtyone %s" % (ip_address)
     results = subprocess.check_output(ONESIXONESCAN, shell=True).strip()
 
