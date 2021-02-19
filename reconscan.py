@@ -21,9 +21,9 @@ try:
         except:
             ips = recon.getIp()
 
-            for ip in (str(ips)).split():
-                recon.scanner(ip, 'TCP')
-                recon.scanner(ip, 'UDP')
+        for ip in (str(ips)).split():
+            recon.scanner(ip, 'TCP')
+            recon.scanner(ip, 'UDP')
 
 except:
     recon.killrecon()
