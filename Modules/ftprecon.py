@@ -1,17 +1,17 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import subprocess
 import sys
 import recon
 
 if len(sys.argv) != 3:
-    print "Usage: ftprecon.py <ip address> <port>"
+    print("Usage: ftprecon.py <ip address> <port>")
     sys.exit(0)
 
 ip_address = sys.argv[1].strip()
 port = sys.argv[2].strip()
-print "\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m"
+print("\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m")
 print('\033[1;37m[-]  |     Starting FTP script scan for {0}:{1} - [This can take a long time]\033[1;m'.format(ip_address, port))
-print "\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m"
+print("\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m")
 
 if not recon.checknmaprunmod(ip_address, "_ftp{0}.nmap".format(port)):
     FTPSCAN = "nmap -sV -Pn -vv -p {0} --script=ftp-* -oN './results/{1}/{1}_ftp{0}.nmap' {1}".format(port, ip_address)
