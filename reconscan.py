@@ -3,7 +3,7 @@
  Author: Gerben (0x90) -- @N0_Operation
  This tool is an automation script for the reconphase during a pentest, it was inspired by a few github repos.
 '''
-
+from __future__ import print_function
 from Modules import recon
 
 recon.bootstrap()
