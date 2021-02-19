@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 '''
  Author: Gerben (0x90) -- @N0_Operation
  This tool is an automation script for the reconphase during a pentest, it was inspired by a few github repos.
