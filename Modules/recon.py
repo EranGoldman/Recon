@@ -117,9 +117,9 @@ def multProc(targetin, scanip, port):
 
 
 def getIp():
-    """ Defines the ip range to be scanned """
+#    """ Defines the ip range to be scanned """
     try:
-        ip_start = raw_input("[-]  Please enter the ip to scan (example 192.168.0.1)  : ")
+        ip_start = input("[-]  Please enter the ip to scan (example 192.168.0.1)  : ")
         ip = IP(ip_start)
         return ip
     except Exception as e:
