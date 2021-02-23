@@ -34,7 +34,7 @@ try:
     recon.logparsertxt(results)
     outfile = "results/{0}/{0}_sshrecon.txt".format(ip_address)
     f = open(outfile, "w")
-    f.write(results)
+    f.write(str(results))
     f.close()
 except:
     print('\033[1;31m[-]  SSH script scan for {0}:{1} had some errors.\033[1;m'.format(ip_address, port))
