@@ -290,7 +290,7 @@ def logparser(ip, protocol):
     from xml.etree import ElementTree
     from libnmap.parser import NmapParser
 
-    with open ('./results/{0}/{0}{1}_nmap_scan_import.xml'.format(ip, protocol), 'rt') as file: #ElementTree module is opening the XML file
+    with open('./results/{0}/{0}{1}_nmap_scan_import.xml'.format(ip, protocol), 'rt') as file: #ElementTree module is opening the XML file
         tree = ElementTree.parse(file)
 
     rep = NmapParser.parse_fromfile('./results/{0}/{0}{1}_nmap_scan_import.xml'.format(ip, protocol)) #NmapParse module is opening the XML file
@@ -331,29 +331,15 @@ def logparser(ip, protocol):
     try:
         if protocol == 'UDP':
             os = 'UDP'
-        if 'Microsoft' in os:
-            counter = 0
-            for services in _host.services: #NmapParser manipulation to list services, their ports and their state. The list elements defined above are printed next to each line.
-                #print "Port: "'{0: <5}'.format(services.port), "Product: "'{0: <15}'.format(list_product[counter],list_version[counter],list_extrainf[counter]), "State: "'{0: <5}'.format(services.state), "Protocol: "'{0: <5}'.format(services.protocol)
-                print("\033[1;32m[+]  Port: "'{0: <5}'.format(services.port), "State: "'{0: <5}'.format(services.state), "Protocol: "'{0: <2}'.format(services.protocol),"Product: "'{0: <15}'.format(list_product[counter]),"Version: "'{0: <15}'.format(list_version[counter]),"ExtrInfo: "'{0: <10}'.format(list_extrainf[counter]))
-                findsploit(list_product[counter], list_version[counter])
-                counter = counter + 1
+        counter = 0
+        for services in _host.services: 
+            print("\033[1;32m[+]  Port: "'{0: <5}'.format(services.port), "State: "'{0: <5}'.format(services.state), "Protocol: "'{0: <2}'.format(services.protocol),"Product: "'{0: <15}'.format(str(list_product[counter])),"Version: "'{0: <15}'.format(str(list_version[counter])),"ExtrInfo: "'{0: <10}'.format(str(list_extrainf[counter])))
+            try:
+                findsploit(str(list_product[counter]), str(list_version[counter]))
+            except:
+                pass
+            counter = counter + 1
 
-        if 'Linux' in os:
-            counter = 0
-            for services in _host.services: #NmapParser manipulation to list services, their ports and their state. The list elements defined above are printed next to each line.
-                #print "Port: "'{0: <5}'.format(services.port), "Product: "'{0: <15}'.format(list_product[counter],list_version[counter],list_extrainf[counter]), "State: "'{0: <5}'.format(services.state), "Protocol: "'{0: <5}'.format(services.protocol)
-                print("\033[1;32m[+]  Port: "'{0: <5}'.format(services.port), "State: "'{0: <5}'.format(services.state), "Protocol: "'{0: <2}'.format(services.protocol),"Product: "'{0: <15}'.format(list_product[counter]),"Version: "'{0: <15}'.format(list_version[counter]),"ExtrInfo: "'{0: <10}'.format(list_extrainf[counter]))
-                findsploit(list_product[counter], list_version[counter])
-                counter = counter + 1
-
-        if 'UDP' in os:
-            counter = 0
-            for services in _host.services: #NmapParser manipulation to list services, their ports and their state. The list elements defined above are printed next to each line.
-                #print "Port: "'{0: <5}'.format(services.port), "Product: "'{0: <15}'.format(list_product[counter],list_version[counter],list_extrainf[counter]), "State: "'{0: <5}'.format(services.state), "Protocol: "'{0: <5}'.format(services.protocol)
-                print("\033[1;32m[+]  Port: "'{0: <5}'.format(services.port), "State: "'{0: <15}'.format(services.state), "Protocol: "'{0: <2}'.format(services.protocol),"Product: "'{0: <15}'.format(list_product[counter]),"Version: "'{0: <10}'.format(list_version[counter]),"ExtrInfo: "'{0: <10}'.format(list_extrainf[counter]))
-                findsploit(list_product[counter], list_version[counter])
-                counter = counter + 1
     except:
         print('\033[1;31m[-]  NMAP parsing script {0} had some errors or no ports were found.'.format(ip))
 
@@ -386,7 +372,6 @@ def logparserall(results):
 def findsploit(product, version):
     found = []
     found2 = []
-
     try:
         majorversion = version.split(" ")
         majorproduct = product.split(" ")
@@ -394,7 +379,7 @@ def findsploit(product, version):
         try:
             SCRIPT = "searchsploit {0} {1}| grep -v dos | grep remote".format(majorproduct[0], versiontop[0])  # find possible sploits
             sploitresults = subprocess.check_output(SCRIPT, shell=True)
-            sploits = sploitresults.split("\n")
+            sploits = sploitresults.decode().split("\n")
 
             for line in sploits:
                 found.append(line)
@@ -402,15 +387,20 @@ def findsploit(product, version):
             if len(found) <= 10:
                 print('\033[1;32m[+]  | Found the following exploits for \033[1;31m{0} {1}'.format(majorproduct[0], versiontop[0]))
                 for item in found:
-                    founditems = item.strip().split("|")
-                    print("\033[1;32m[+]  |_{0} {1}".format(founditems[0], founditems[1]))
+                    try:
+                        founditems = item.strip().split("|")
+                        print("\033[1;32m[+]  |_{0} {1}".format(founditems[0], founditems[1]))
+                    except:
+                        pass
+                    
 
             else:
                 print('\033[1;33m[-]  Found too many possible exploits for {0} {1} please check manualy'.format(majorproduct[0], versiontop[0]))
         except:
+            print('hit except')
             SCRIPT2 = "searchsploit {0}| grep -v dos | grep remote".format(majorproduct[0])  # find possible sploits
             sploitresults2 = subprocess.check_output(SCRIPT2, shell=True)
-            sploits2 = sploitresults2.split("\n")
+            sploits2 = sploitresults2.decode().split("\n")
 
             for line in sploits2:
                 found2.append(line)
