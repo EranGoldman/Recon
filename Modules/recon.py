@@ -333,7 +333,7 @@ def logparser(ip, protocol):
             os = 'UDP'
         counter = 0
         for services in _host.services: 
-            print("\033[1;32m[+]  Port: "'{0: <5}'.format(services.port), "State: "'{0: <5}'.format(services.state), "Protocol: "'{0: <2}'.format(services.protocol),"Product: "'{0: <15}'.format(str(list_product[counter])),"Version: "'{0: <15}'.format(str(list_version[counter])),"ExtrInfo: "'{0: <10}'.format(str(list_extrainf[counter])))
+            print("\033[1;32m[+]  Port: "'\033[1;31m{0: <5}'.format(services.port), "\033[1;32mState: "'\033[1;31m{0: <5}'.format(services.state), "\033[1;32mProtocol: "'\033[1;31m{0: <2}'.format(services.protocol),"\033[1;32mProduct: "'\033[1;31m{0: <15}'.format(str(list_product[counter])),"\033[1;32mVersion: "'\033[1;31m{0: <15}'.format(str(list_version[counter])),"\033[1;32mExtrInfo: "'\033[1;31m{0: <10}'.format(str(list_extrainf[counter])))
             try:
                 findsploit(str(list_product[counter]), str(list_version[counter]))
             except:
@@ -377,7 +377,7 @@ def findsploit(product, version):
         majorproduct = product.split(" ")
         versiontop = majorversion[0].split(".")
         try:
-            SCRIPT = "searchsploit {0} {1}| grep -v dos | grep remote".format(majorproduct[0], versiontop[0])  # find possible sploits
+            SCRIPT = "searchsploit '{0} {1}'| grep -v dos | grep remote".format(majorproduct[0], versiontop[0])  # find possible sploits
             sploitresults = subprocess.check_output(SCRIPT, shell=True)
             sploits = sploitresults.decode().split("\n")
 
@@ -385,7 +385,7 @@ def findsploit(product, version):
                 found.append(line)
 
             if len(found) <= 10:
-                print('\033[1;32m[+]  | Found the following exploits for \033[1;31m{0} {1}'.format(majorproduct[0], versiontop[0]))
+                print('\033[1;32m[+]  | Found the following possible exploits for \033[1;31m{0}'.format(majorproduct[0]))
                 for item in found:
                     try:
                         founditems = item.strip().split("|")
