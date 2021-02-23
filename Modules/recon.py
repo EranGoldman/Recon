@@ -214,12 +214,12 @@ def scanner(ip_address, protocol):
     else:
         print('\033[1;33m[-]  {0} already scanned for {1} ports...'.format(ip_address, protocol))
         if protocol == "UDP":
-            udpresults = file("./results/{0}/{0}{1}_nmap_scan_import.xml".format(ip_address, protocol), "r")
+            udpresults = open("./results/{0}/{0}{1}_nmap_scan_import.xml".format(ip_address, protocol), "r")
             lines = udpresults
         else:
-            tcpresults = file("./results/{0}/{0}{1}_nmap_scan_import.xml".format(ip_address, protocol), "r")
+            tcpresults = open("./results/{0}/{0}{1}_nmap_scan_import.xml".format(ip_address, protocol), "r")
             lines = tcpresults
-    print( "[-]  ----------------------------------------------------------------------------- ")
+    print("[-]  ----------------------------------------------------------------------------- ")
     print('[-]  |     {0} Nmap scan being parsed for {1}'.format(protocol, ip_address))
     print("[-]  ----------------------------------------------------------------------------- ")
     logparser(ip_address, protocol)
