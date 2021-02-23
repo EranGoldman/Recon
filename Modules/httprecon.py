@@ -43,7 +43,7 @@ try:
     print("\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m")
     print('\033[1;37m[-]  |     Starting NIKTO scan for {0}:{1} \033[1;m'.format(ip_address, port))
     print("\033[1;37m[-]  ----------------------------------------------------------------------------- \033[1;m")
-    resultsnikto = subprocess.check_output(NIKTOSCAN, shell=True)
+    resultsnikto = print(subprocess.check_output(NIKTOSCAN, shell=True))
     recon.logparsernikto(resultsnikto)
 
     SSLSCAN = "sslscan --no-colour {0}:{1}".format(ip_address, port)
